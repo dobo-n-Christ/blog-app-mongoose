@@ -1,0 +1,14 @@
+{
+  "name": "blog-app-mongoose",
+  "version": "1.0.0",
+  "description": "Mongoose blogging app",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
