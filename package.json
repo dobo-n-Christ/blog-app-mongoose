@@ -4,6 +4,7 @@
   "description": "Mongoose blogging app",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "mocha"
   },
   "author": "",
