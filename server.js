@@ -36,7 +36,7 @@ app.get('/posts/:id', (req, res) => {
 
 app.post('/posts', (req, res) => {
     const requiredFields = ['title', 'content', 'author'];
-    for (i = 0; i < requiredFields.length; i++) {
+    for (let i = 0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
             const message = `Missing \`${field}\` in request body`;
@@ -69,7 +69,7 @@ app.put('/posts/:id', (req, res) => {
             toBeUpdated[field] = req.body[field];
         };
     });
-    Post.findByIdAndUpdate(req.params.id, {$set: toBeUpdated})
+    Post.findByIdAndUpdate(req.params.id, {$set: toBeUpdated}, {new: true})
     .then(post => res.status(200).json(post.serialize()))
     .catch(err => {
         console.error(err);
@@ -78,12 +78,16 @@ app.put('/posts/:id', (req, res) => {
 });
 
 app.delete('/posts/:id', (req, res) => {
-    Post.findByIdAndRemove(req.body.id)
-    .then(post => res.status(204).end())
+    Post.findByIdAndRemove(req.params.id)
+    .then(() => res.status(204).end())
     .catch(err => {
         console.error(err);
         res.status(500).json({message: "Internal server error"});
     });
+});
+
+app.use('*', function(req, res) {
+    res.status(404).json({message: 'Not Found'});
 });
 
 let server;
