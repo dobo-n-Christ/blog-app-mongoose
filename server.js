@@ -18,14 +18,15 @@ app.get('/posts', (req, res) => {
         // console.log(posts);
         console.log('it worked');
         res.json(posts.map(post => {
-            return {
-                id: post._id,
-                title: post.title,
-                content: post.content,
-                // author: post.authorName,
-                comments: post.comments
+            return post.serialize();
+            // return {
+            //     id: post._id,
+            //     title: post.title,
+            //     content: post.content,
+            //     author: post.authorName,
+            //     comments: post.comments
 
-            };
+            // };
         }));
     })
     .catch(err => {
@@ -61,7 +62,7 @@ app.post('/posts', (req, res) => {
                 content: req.body.content,
                 author: req.body.author_id
             })
-            .then(post => res.status(201).json(post))
+            .then(post => res.status(201).json(post.serialize()))
             .catch(err => {
                 console.error(err);
                 res.status(500).json({message: "Internal server error"});
@@ -93,7 +94,7 @@ app.put('/posts/:id', (req, res) => {
         };
     });
     Post.findByIdAndUpdate(req.params.id, {$set: toBeUpdated}, {new: true})
-    .then(post => res.status(200).json(post))
+    .then(post => res.status(200).json(post.serialize()))
     .catch(err => {
         console.error(err);
         res.status(500).json({message: "Internal server error"});

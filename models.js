@@ -30,6 +30,9 @@ postSchema.pre('find', function(next) {
 });
 
 postSchema.virtual('authorName').get(function() {
+    if (!this.author) {
+        return null;
+    }
     return `${this.author.firstName} ${this.author.lastName}`.trim();
 });
 
